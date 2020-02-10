@@ -4,16 +4,16 @@
 // Note, the bits are counted from right to left. 
 // Return the bit states of x within range of [start, end], in which both are inclusive.
 // Assume 0 <= start & end <= 31
-unsigned * get_bits(unsigned x,
+void get_bits(unsigned x,
                  unsigned start,
-                 unsigned end) {
+                 unsigned end,
+		 unsigned * a) {
     
-   return NULL;
+   return;
     // YOUR CODE HERE
     // Returning NULL is a placeholder
-    // get_bits dynamically allocates an array a and set a[i] = 1 when (i+start)-th bit
-    // of x is 1, otherwise siet a[i] = 0;
-    // At last, get_bits returns the address of the array.
+    // get_bits receives an array a from caller and set a[i] = 1 when (i+start)-th bit
+    // of x is 1, otherwise set a[i] = 0;
 }
 
 // Set the bits of x within range of [start, end], in which both are inclusive
@@ -77,7 +77,8 @@ void test_get_bits(unsigned x,
                   unsigned s,
 		  unsigned e,
                   unsigned * expected) {
-    unsigned* a = get_bits(x, s, e);
+    unsigned a[32];
+    get_bits(x, s, e, a);
     if(!array_equals(a, expected, e - s + 1)) {
         printf("get_bits(0x%08x,%u,%u): ",x,s,e);
 	print_unsigned_array(a, e - s + 1);
@@ -89,7 +90,6 @@ void test_get_bits(unsigned x,
 	print_unsigned_array(a, e - s + 1);
 	printf(", correct\n");
     }
-    free(a);
 }
 
 void test_set_bits(unsigned x,
