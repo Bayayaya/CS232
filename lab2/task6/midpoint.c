@@ -7,10 +7,19 @@ int midpoint_original(int x, int y) {
 int midpoint_A(int x, int y) {
     return x + ((y - x) / 2);
 }
+// x=1; y=-2147483648 => y-x overflow
+//midpoint_A = 1073741824
+
 
 int midpoint_B(int x, int y) {
     return ((unsigned int)x + (unsigned int)y) >> 1;
 }
+// x=1; y=-2147483648 => 
+//midpoint_B = 1073741824
+
+//x=-1; y=-3 =>
+//midpoint_B = 2147483646
+
 
 int midpoint_C(int x, int y) {
     return (x & y) + ((x ^ y) >> 1);
