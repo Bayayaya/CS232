@@ -1,39 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Note, the bits are counted from right to left. 
+//help function to get value of index-th digit of x
+
+unsigned get_bit(unsigned x, unsigned index) {
+
+  unsigned r = 1 << index;
+  r = r & x;
+
+  if (r == 0) {
+    return 0;
+  } else {return 1;}
+
+}
+
+// Note, the bits are counted from right to left.
 // Return the bit states of x within range of [start, end], in which both are inclusive.
 // Assume 0 <= start & end <= 31
+
 void get_bits(unsigned x,
-                 unsigned start,
-                 unsigned end,
-		 unsigned * a) {
-    
-   return;
-    // YOUR CODE HERE
-    // Returning NULL is a placeholder
-    // get_bits receives an array a from caller and set a[i] = 1 when (i+start)-th bit
-    // of x is 1, otherwise set a[i] = 0;
+              unsigned start,
+              unsigned end,
+              unsigned * a) {
+
+  for (int i = start; i <= end; i++) {
+    a[i - start] = get_bit(x, i);
+  }
+
+  // YOUR CODE HERE
+  // Returning NULL is a placeholder
+  // get_bits receives an array a from caller and set a[i] = 1 when (i+start)-th bit
+  // of x is 1, otherwise set a[i] = 0;
 }
+
+//help function to set value of index-th digit of x whithout changing anyother bit in x
+
+void set_bit(unsigned* x, unsigned index, unsigned value) {
+
+  unsigned mask1 = 1 << index;
+  unsigned mask0 = ~(1 << index);
+
+
+  if (value == 0) {
+    *x &= mask0;
+  } else {
+    *x |= mask1;
+  }
+
+}
+
 
 // Set the bits of x within range of [start, end], in which both are inclusive
 // Assume 0 <= start & end <= 31
 void set_bits(unsigned * x,
-             unsigned start,
-             unsigned end,
-             unsigned *v) {
-    // YOUR CODE HERE
-    // No return value
-    // v points to an array of at least (end-start+1) unsigned integers.
-    // if v[i] == 0, then set (i+start)-th bit of x zero, otherwise, set (i+start)-th bit of x one.
+              unsigned start,
+              unsigned end,
+              unsigned *v) {
+
+  for (int i = start; i <= end; i++) {
+
+    set_bit(x, i, v[i - start]);
+//printf("i is %d ,i-start is %d, v[i-start] is %d \n", i, i-start, v[i-start]);
+  }
+
+  // YOUR CODE HERE
+  // No return value
+  // v points to an array of at least (end-start+1) unsigned integers.
+  // if v[i] == 0, then set (i+start)-th bit of x zero, otherwise, set (i+start)-th bit of x one.
 }
+
+//help function to flip one bit
+
+void flip_bit(unsigned* x, unsigned index) {
+
+
+  unsigned mask1 = 1 << index;
+
+  *x ^= mask1;
+
+}
+
 
 // Flip the bits of x within range [start, end], in which both are inclusive.
 // Assume 0 <= start & end <= 31
 void flip_bits(unsigned * x,
-              unsigned start,
-              unsigned end) {
-    // YOUR CODE HERE
+               unsigned start,
+               unsigned end) {
+  // YOUR CODE HERE
+  for (int i = start; i <= end; i++) {
+    flip_bit(x, i);
+  }
+
 }
 
 
@@ -46,17 +103,17 @@ void flip_bits(unsigned * x,
  * elements in the arrays are equal.
  */
 int array_equals(unsigned *arr1,
-		unsigned *arr2,
-		unsigned size) {
+                 unsigned *arr2,
+                 unsigned size) {
 
-   int i;
-   for (i = 0; i < size; i++) {
-       if (arr1[i] != arr2[i]) {
-           return 0;
-       }
-   }
+  int i;
+  for (i = 0; i < size; i++) {
+    if (arr1[i] != arr2[i]) {
+      return 0;
+    }
+  }
 
-   return 1;
+  return 1;
 }
 
 /*
@@ -64,117 +121,128 @@ int array_equals(unsigned *arr1,
  * is only 0 or 1.
  */
 void print_unsigned_array(unsigned *arr1,
-		        unsigned size) {
+                          unsigned size) {
 
-    printf("0b");
-    unsigned i;
-    for (i = 0; i < size; i++) {
-        printf("%u", arr1[i]);
-    }
+  printf("0b");
+  unsigned i;
+  for (i = 0; i < size; i++) {
+    printf("%u", arr1[i]);
+  }
 }
 
 void test_get_bits(unsigned x,
-                  unsigned s,
-		  unsigned e,
-                  unsigned * expected) {
-    unsigned a[32];
-    get_bits(x, s, e, a);
-    if(!array_equals(a, expected, e - s + 1)) {
-        printf("get_bits(0x%08x,%u,%u): ",x,s,e);
-	print_unsigned_array(a, e - s + 1);
-	printf(", expected ");
-	print_unsigned_array(expected, e - s + 1);
-	printf("\n");
-    } else {
-        printf("get_bits(0x%08x,%u,%u): ",x,s,e);
-	print_unsigned_array(a, e - s + 1);
-	printf(", correct\n");
-    }
+                   unsigned s,
+                   unsigned e,
+                   unsigned * expected) {
+  unsigned a[32]; //create an array
+  get_bits(x, s, e, a);
+  if (!array_equals(a, expected, e - s + 1)) {
+    printf("get_bits(0x%08x,%u,%u): ", x, s, e);
+    print_unsigned_array(a, e - s + 1);
+    printf(", expected ");
+    print_unsigned_array(expected, e - s + 1);
+    printf("\n");
+  } else {
+    printf("get_bits(0x%08x,%u,%u): ", x, s, e);
+    print_unsigned_array(a, e - s + 1);
+    printf(", correct\n");
+  }
 }
 
 void test_set_bits(unsigned x,
-                  unsigned s,
-		  unsigned e,
-                  unsigned * v,
-                  unsigned expected) {
-    unsigned o = x;
-    set_bits(&x, s, e, v);
-    if(x!=expected) {
-        printf("set_bits(0x%08x,%u,%u,",o,s,e);
-	print_unsigned_array(v, e - s + 1);
-	printf("): 0x%08x, expected 0x%08x\n",x,expected);
-    } else {
-        printf("set_bits(0x%08x,%u,%u,%u): 0x%08x, correct\n",o,s,e,*v,x);
-    }
+                   unsigned s,
+                   unsigned e,
+                   unsigned * v,
+                   unsigned expected) {
+  unsigned o = x;
+  set_bits(&x, s, e, v);
+  if (x != expected) {
+    printf("set_bits(0x%08x,%u,%u,", o, s, e);
+    print_unsigned_array(v, e - s + 1);
+    printf("): 0x%08x, expected 0x%08x\n", x, expected);
+  } else {
+    printf("set_bits(0x%08x,%u,%u,%u): 0x%08x, correct\n", o, s, e, *v, x);
+  }
 }
 
 void test_flip_bits(unsigned x,
-                   unsigned s,
-		   unsigned e,
-                   unsigned expected) {
-    unsigned o = x;
-    flip_bits(&x, s, e);
-    if(x!=expected) {
-        printf("flip_bits(0x%08x,%u,%u): 0x%08x, expected 0x%08x\n",o,s,e,x,expected);
-    } else {
-        printf("flip_bits(0x%08x,%u,%u): 0x%08x, correct\n",o,s,e,x);
-    }
+                    unsigned s,
+                    unsigned e,
+                    unsigned expected) {
+  unsigned o = x;
+  flip_bits(&x, s, e);
+  if (x != expected) {
+    printf("flip_bits(0x%08x,%u,%u): 0x%08x, expected 0x%08x\n", o, s, e, x, expected);
+  } else {
+    printf("flip_bits(0x%08x,%u,%u): 0x%08x, correct\n", o, s, e, x);
+  }
 }
 
 int main(int argc,
          const char * argv[]) {
-    printf("\nTesting get_bits()\n\n");
-    unsigned expected;
-    expected = 0;
-    test_get_bits(0b1001110,0,0,&expected);
-    expected = 1;
-    test_get_bits(0b1001110,1,1,&expected);
-    expected = 0;
-    test_get_bits(0b1001110,5,5,&expected);
-    expected = 1;
-    test_get_bits(0b11011,3,3,&expected);
-    expected = 0;
-    test_get_bits(0b11011,2,2,&expected);
-    expected = 0;
-    test_get_bits(0b11011,9,9,&expected);
+  /*
+    unsigned y = 1;
+    unsigned *x = &y;
+    set_bit(x,0,0);
+    printf("%d\n", y);
 
-    unsigned expectedArr[] = {1,0,1,0};
-    test_get_bits(0b111010101110, 3, 6, expectedArr);
-    test_get_bits(0b01011111, 4, 7, expectedArr);
-    test_get_bits(0b11110101, 0, 3, expectedArr);
+    y = 0;
+    set_bit(x,0,1);
+    printf("%d\n", y);
+    */
 
-    printf("\nTesting set_bits()\n\n");
-    test_set_bits(0b1001110,2,2,&expectedArr[1],0b1001010);
-    test_set_bits(0b1101101,0,0,&expectedArr[1],0b1101100);
-    test_set_bits(0b1001110,2,2,expectedArr,0b1001110);
-    test_set_bits(0b1101101,0,0,expectedArr,0b1101101);
-    test_set_bits(0b1001110,9,9,&expectedArr[1],0b1001110);
-    test_set_bits(0b1101101,4,4,&expectedArr[1],0b1101101);
-    test_set_bits(0b1001110,9,9,expectedArr,0b1001001110);
-    test_set_bits(0b1101101,7,7,expectedArr,0b11101101);
+  printf("\nTesting get_bits()\n\n");
+  unsigned expected;
+  expected = 0;
+  test_get_bits(0b1001110, 0, 0, &expected);
+  expected = 1;
+  test_get_bits(0b1001110, 1, 1, &expected);
+  expected = 0;
+  test_get_bits(0b1001110, 5, 5, &expected);
+  expected = 1;
+  test_get_bits(0b11011, 3, 3, &expected);
+  expected = 0;
+  test_get_bits(0b11011, 2, 2, &expected);
+  expected = 0;
+  test_get_bits(0b11011, 9, 9, &expected);
 
-    test_set_bits(0b111111,0,3,expectedArr,0b110101);
-    test_set_bits(0b111111,2,5,expectedArr,0b010111);
-    test_set_bits(0b111111,1,4,expectedArr,0b101011);
+  unsigned expectedArr[] = {1, 0, 1, 0};
+  test_get_bits(0b111010101110, 3, 6, expectedArr);
+  test_get_bits(0b01011111, 4, 7, expectedArr);
+  test_get_bits(0b11110101, 0, 3, expectedArr);
 
-    test_set_bits(0,0,3,expectedArr,0b0101);
-    test_set_bits(0,2,5,expectedArr,0b010100);
-    test_set_bits(0,1,4,expectedArr,0b01010);
+  printf("\nTesting set_bits()\n\n");
+  test_set_bits(0b1001110, 2, 2, &expectedArr[1], 0b1001010);
+  test_set_bits(0b1101101, 0, 0, &expectedArr[1], 0b1101100);
+  test_set_bits(0b1001110, 2, 2, expectedArr, 0b1001110);
+  test_set_bits(0b1101101, 0, 0, expectedArr, 0b1101101);
+  test_set_bits(0b1001110, 9, 9, &expectedArr[1], 0b1001110);
+  test_set_bits(0b1101101, 4, 4, &expectedArr[1], 0b1101101);
+  test_set_bits(0b1001110, 9, 9, expectedArr, 0b1001001110);
+  test_set_bits(0b1101101, 7, 7, expectedArr, 0b11101101);
 
-    printf("\nTesting flip_bits()\n\n");
-    test_flip_bits(0b1001110,0,0,0b1001111);
-    test_flip_bits(0b1001110,1,1,0b1001100);
-    test_flip_bits(0b1001110,2,2,0b1001010);
-    test_flip_bits(0b1001110,5,5,0b1101110);
-    test_flip_bits(0b1001110,9,9,0b1001001110);
+  test_set_bits(0b111111, 0, 3, expectedArr, 0b110101);
+  test_set_bits(0b111111, 2, 5, expectedArr, 0b010111);
+  test_set_bits(0b111111, 1, 4, expectedArr, 0b101011);
 
-    test_flip_bits(0b1010,0,3,0b0101);
-    test_flip_bits(0b0101,0,3,0b1010);
-    test_flip_bits(0b0,0,0,0b1);
-    test_flip_bits(0b0,4,4,0b10000);
-    test_flip_bits(0b0,0,5,0b111111);
-    test_flip_bits(0b1111,0,4,0b10000);
+  test_set_bits(0, 0, 3, expectedArr, 0b0101);
+  test_set_bits(0, 2, 5, expectedArr, 0b010100);
+  test_set_bits(0, 1, 4, expectedArr, 0b01010);
 
-    printf("\n");
-    return 0;
+  printf("\nTesting flip_bits()\n\n");
+  test_flip_bits(0b1001110, 0, 0, 0b1001111);
+  test_flip_bits(0b1001110, 1, 1, 0b1001100);
+  test_flip_bits(0b1001110, 2, 2, 0b1001010);
+  test_flip_bits(0b1001110, 5, 5, 0b1101110);
+  test_flip_bits(0b1001110, 9, 9, 0b1001001110);
+
+  test_flip_bits(0b1010, 0, 3, 0b0101);
+  test_flip_bits(0b0101, 0, 3, 0b1010);
+  test_flip_bits(0b0, 0, 0, 0b1);
+  test_flip_bits(0b0, 4, 4, 0b10000);
+  test_flip_bits(0b0, 0, 5, 0b111111);
+  test_flip_bits(0b1111, 0, 4, 0b10000);
+
+  printf("\n");
+  return 0;
 }
