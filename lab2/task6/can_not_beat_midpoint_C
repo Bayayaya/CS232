@@ -1,0 +1,23 @@
+x=1; y=-2147483648
+
+1 is [0b0000 ... 0001] and -2147483648 is [0b1000 ... 0000] 
+so the midpoint of 1 and -2147483648 is expected to be -1073741824 [0b1100 ... 0000]
+
+x&y = [0b0000 ... 0000]
+x^y = [0b1000 ... 0001]
+x^y >> 1 = [0b1100 ... 0000] (because this is not an unsigned int shift)
+
+(x & y) + ((x ^ y) >> 1 = [0b1100 ... 0000]
+
+
+
+x=-1; y=-3
+
+-1 is [0b1111 ... 1111] and -3 is [0b1111 ... 1101] 
+so the midpoint of -1 and -3 is expected to be -2 [0b1111 ... 1110]
+
+
+x&y = [0b1111 ... 1101]
+x^y = [0b0000 ... 0010]
+x^y >> 1 = [0b0000 ... 0001]
+(x & y) + ((x ^ y) >> 1 = [0b1111 ... 1110]
