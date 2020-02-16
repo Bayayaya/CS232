@@ -10,6 +10,8 @@ int main () {
   char buf[MAX_BUF];
 
   puts("Type some text (then ENTER):");
+
+  do {
   fgets (buf, MAX_BUF, stdin);
   len = strlen(buf)-1;
   //puts(buf);
@@ -23,6 +25,7 @@ int main () {
     }
     len--;
   } while (len > -1);
+} while (strlen(buf)-1 != 0);
 
   printf("Distribution of letters in corpus:\n");
   for (i = 0; i < 26; i++) {
