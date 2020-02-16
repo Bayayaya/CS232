@@ -9,12 +9,24 @@ int main () {
   int len, i;
   char buf[MAX_BUF];
 
+  puts("Type some text (then ENTER):");
+  fgets (buf, MAX_BUF, stdin);
+  len = strlen(buf)-1;
+  //puts(buf);
+
   do {
-  } while (len > 1);
+    if(buf[len]>='A' && buf[len]<='Z'){
+      letter_frequency[buf[len]-'A'] += 1; 
+    } else if (buf[len]>='a' && buf[len]<='z') {
+
+      letter_frequency[buf[len]-'a'] += 1;
+    }
+    len--;
+  } while (len > -1);
 
   printf("Distribution of letters in corpus:\n");
   for (i = 0; i < 26; i++) {
     // 'A' is ASCII code 65
-    printf("%c: %d\n", 65+i, letter_frequency[i]);
+    printf("%c: %d\n", 65 + i, letter_frequency[i]);
   }
 }
