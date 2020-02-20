@@ -6,29 +6,19 @@
 
 
 #define NUM 30   /* number of strings */
-#define LEN 1200  /* max length of each string */
+//#define LEN 24  /* max length of each string */
 
 int compares(char* String1, char* String2); //Compare String1 with String2, return 0 if need to swap, otherwise return 1.
 void swaps(char** String1, char** String2); //Swap two string pointers
+char* readinput();
 
 int main() {
 
   char* Strings[NUM];
+
   for (int i = 0; i < NUM; i++) {
-    Strings[i] = (char*) malloc (LEN);
+    Strings[i] = readinput();
   }
-  printf("Please enter %d strings, one per line:\n", NUM);
-  /* Write a for loop here to read NUM strings.
-
-     Use fgets(), with LEN as an argument to ensure that an input line that is too
-     long does not exceed the bounds imposed by the string's length.  Note that the
-     newline and NULL characters will be included in LEN.
-  */
-  for (int i = 0; i < NUM; i++) {
-    fgets(Strings[i], LEN , stdin);
-  }
-
-
 
   puts("\nHere are the strings in the order you entered:");
   /* Write a for loop here to print all the strings. */
@@ -114,6 +104,21 @@ void swaps(char** String1, char** String2) {
   *String1 = *String2;
   *String2 = temp;
 
+}
+
+char* readinput(){
+#define CHUNK 24
+   char* input = NULL;
+   char buff[CHUNK];
+   int inputlen = 0, templen = 0;
+   do {
+       fgets(buff, CHUNK, stdin);
+       templen = strlen(buff);
+       input = realloc(input, inputlen+templen+1);
+       strcpy(input, buff);
+       inputlen += templen;
+    } while (templen==CHUNK-1 && buff[CHUNK-2]!='\n');
+    return input;
 }
 
 
