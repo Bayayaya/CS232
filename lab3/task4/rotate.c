@@ -20,7 +20,6 @@ int main(int argc, char ** argv) { // char* = Array of chars = String; char ** =
     //hint: use argc
 
     if (argc != 5) {
-        printf("%d\n", argc);
         puts("Error: rotate needs four numbers");
     } else {
 
