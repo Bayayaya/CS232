@@ -7,18 +7,15 @@ char* readinput();
 
 int main () {
 
-	char* Strings = NULL;
 	int ctc = 0, ctw = 0, ctln = 0, ctsp = 0, ctup = 0, ctlw = 0, ctnm = 0;
-	int stringlen;
-	int i;
-
+	bool shouldkeepgoing;
 	do {
-		Strings = readinput();
-		stringlen = strlen(Strings); // include null
+		char* Strings = readinput();
+		int stringlen = strlen(Strings); // include null
 		//printf("%s string lenth is %d\n", Strings, stringlen);
 		ctc += (stringlen);
 		ctln ++;
-		for (i = 0; i < stringlen; i++) {
+		for (int i = 0; i < stringlen; i++) {
 
 
 			if (Strings[i] >= 'A' && Strings[i] <= 'Z') {
@@ -38,15 +35,14 @@ int main () {
 				ctw++;
 			}
 		}
-
+		shouldkeepgoing = stringlen != 0 && Strings[stringlen - 1] == '\n';
 		//printf("char %d, word %d, line %d, space %d, upcase %d, lowercase %d, number %d\n", ctc, ctw, ctln, ctsp, ctup, ctlw, ctnm);
 
 		//printf("%d %d %d %d %d %d %d\n", ctc, ctw, ctln, ctsp, ctup, ctlw, ctnm);
-
-	} while (stringlen != 0 && Strings[stringlen - 1] == '\n'); //check whether Strings reach to EOF
+		free(Strings);
+	} while (shouldkeepgoing); //check whether Strings reach to EOF
 
 	printf("%d %d %d %d %d %d %d\n", ctc, ctw, ctln, ctsp, ctup, ctlw, ctnm);
-	free(Strings);
 }
 
 
