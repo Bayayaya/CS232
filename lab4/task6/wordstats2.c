@@ -11,7 +11,7 @@ int main () {
 	int ctc = 0, ctw = 0, ctln = 0, ctsp = 0, ctup = 0, ctlw = 0, ctnm = 0;
 	int stringlen;
 	int i;
-	bool wordck;
+
 	do {
 		Strings = readinput();
 		stringlen = strlen(Strings); // include null
@@ -30,11 +30,11 @@ int main () {
 			} else if (Strings[i] == '\t' || Strings[i] == ' ' ) {
 				ctsp++;
 			}
-			wordck = Strings[i] != ' ' && Strings[i] != '\n' && Strings[i] != '\t'; //check if String[i] is white space or new line
+			bool wordck = Strings[i] != ' ' && Strings[i] != '\n' && Strings[i] != '\t'; //check if String[i] is white space or new line
 
- 			if (wordck && (i == 0 || Strings[i - 1] == ' ' || Strings[i - 1] == '\n' || Strings[i - 1] == '\t')) {
- 				//if String[i] is white space or a new line and i ==0, then add one word. 
- 				//if String[i] is white space or a new line and previous char is not white space or new line, then add one word
+			if (wordck && (i == 0 || Strings[i - 1] == ' ' || Strings[i - 1] == '\n' || Strings[i - 1] == '\t')) {
+				//if String[i] is white space or a new line and i ==0, then add one word.
+				//if String[i] is white space or a new line and previous char is not white space or new line, then add one word
 				ctw++;
 			}
 		}
@@ -46,7 +46,7 @@ int main () {
 	} while (stringlen != 0 && Strings[stringlen - 1] == '\n'); //check whether Strings reach to EOF
 
 	printf("%d %d %d %d %d %d %d\n", ctc, ctw, ctln, ctsp, ctup, ctlw, ctnm);
-
+	free(Strings);
 }
 
 
