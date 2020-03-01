@@ -1,0 +1,10 @@
+$1 = (int *) 0xffe64560
+$2 = (int *) 0xffe64530
+$3 = (int *) 0xffe64500
+$4 = (int *) 0xffe644d0
+
+$1 - $2 = 0xffe64560 - 0xffe64530 = 0x00000030
+$2 - $3 = 0xffe64530 - 0xffe64500 = 0x00000030
+$3 - $4 = 0xffe64500 - 0xffe644d0 = 0x00000030
+
+=> So the size of a Stack Frame is 0x30 = 48 bytes because machine is byte addressable. 
