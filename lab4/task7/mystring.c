@@ -47,7 +47,7 @@ mystring_t also_bad_string_new() {
 	/* Initialize attributes */
 	s.size = 1; //why size+1? an extra space for null
 	s.data = (char*) malloc((s.size + 1) * sizeof(char));
-	if (s.data == '\0') {
+	if (s.data == NULL) {
 		allocation_failed();
 	}
 	s.data[0] = ' ';
@@ -123,7 +123,7 @@ void mystring_cat(mystring_t *s, char *s2) {
 		s->data[j]=s2[j-s->size+1];
 	}
 	s->size += i;
-	s->data[s->size+1] = '0';
+	//s->data[s->size+1] = '0';
 	/* YOUR CODE HERE*/
 }
 
@@ -141,13 +141,9 @@ void mystring_set(mystring_t *s, size_t loc, char value) {
 		}
 		s->data[loc] = value;
 		s->size = loc+1;
-		s->data[loc+1] = '\0';
+		//s->data[loc+1] = '\0';
 		}
-		/*if(loc==0){
-			s->data = (char*) realloc(s->data,sizeof(char)*2);
-			s->data[loc] = value;
-			s->data[loc+1] = '\0';
-		}*/
+		
 	}
 
 	/* YOUR CODE HERE*/
