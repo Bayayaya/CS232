@@ -5,6 +5,11 @@ typedef struct node {
     struct node* next;
 } node_t;
 
+node_t *construct_3();
+
+
+
+
 node_t * construct_3() {
     //Allocate three pointers: 
     //x for the first Node, and temporary pointers y and z for the other two Nodes.
@@ -14,7 +19,32 @@ node_t * construct_3() {
     //Dereference each pointer to store the appropriate number into the value field in its pointee.
 
     //Dereference each pointer to access the .next field in its pointee, 
-    //and use pointer assignment to set the .next field to point to the appropriate Node. 
+    //and use pointer assignment to set the .next field to point to the appropriate Node.
+
+node_t * x; //creat a note_t pointer x on stack
+
+
+node_t * temp1;
+temp1 = (node_t*) malloc(sizeof(node_t));
+x = temp1; //next is pointer to note_t temp
+
+temp1->value = 1;
+
+node_t * temp2;
+temp2 = (node_t*) malloc(sizeof(node_t));
+temp1->next = temp2;
+
+temp2->value = 2;
+
+node_t * temp3;
+temp3 = (node_t*) malloc(sizeof(node_t));
+temp2->next = temp3;
+
+temp3->value = 3;
+
+temp3->next = temp1;
+
+return x;
 
 }
 

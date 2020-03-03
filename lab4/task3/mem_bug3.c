@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-int * makearray(int size,int base){
+int* makearray(int size,int base){
 
-  int array[size];
+  int* array=(int*)malloc(size*sizeof(int));
   int j;
 
   for(j=0;j<size;j++)
     array[j] = base*=2; //doubling base
-
-  return array;
+return array;
 }
 
 int main(){
@@ -21,12 +20,12 @@ int main(){
     sum+=a1[j];
   }
   printf("\n");
-
+free(a1);
   for(j=0;j<10;j++){
     printf("%d ",a2[j]);
     sum+=a2[j];
   }
   printf("\n");
-
+free(a2);
   printf("SUM: %d\n", sum);
 }

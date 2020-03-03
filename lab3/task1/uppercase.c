@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	int i;
 
 	for (i = 0; i < n ; ++i) {
-		if(str[i]>= 'a' & str[i]<= 'z'){
+		if(str[i]>= 'a' && str[i]<= 'z'){
 			str[i] -='a' - 'A';
 		}
 	}
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < n; ++i)
 		putchar(str[i]);
 
-	putchar('\n');
+	//putchar('\n');
 
 	return 0;
 }

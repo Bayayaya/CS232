@@ -115,7 +115,7 @@ char* readinput(){
        fgets(buff, CHUNK, stdin);
        templen = strlen(buff);
        input = realloc(input, inputlen+templen+1);
-       strcpy(input, buff);
+       strcpy(input+strlen(input), buff); // how to copy and the length
        inputlen += templen;
     } while (templen==CHUNK-1 && buff[CHUNK-2]!='\n');
     return input;
