@@ -38,24 +38,56 @@ void readonly_vs_stack();
 int main(void) {
     printf("---------------------------------------------\n");	
     trace_pointers();
+    //42 42
+    //7 42
+    //8 7 8 8
+    //123 8 7 123 123
     printf("---------------------------------------------\n");	
     trace_structs_pointers();
+    //a=0 b=1
+    //a=0 b=1
+    //a=4 b=5
     printf("---------------------------------------------\n");	
     strlen_vs_sizeof();
+    //strlen(str):6 sizeof(str):7 sizeof(str2):8 sizeof(s):8, sizeof(*s):1
     printf("---------------------------------------------\n");	
     pointer_math();
+    //a[3]:5 str[3]:l
+    //a=0 a+3=3 (a+3-a)=3 ??
+    //str=H str+3=l (str+3-str)="l"-"H" ASCII number ??
     printf("---------------------------------------------\n");	
     pointer_casting();
+    //*i = -1
     printf("---------------------------------------------\n");	
     byte_ordering();
+    //0xefbeadde
     printf("---------------------------------------------\n");	
     simple_double_array();
+    //darray[0] = { 1 2 3 4 }
+    //darray[1] = { 5 6 7 8 }
+    //darray[2] = { 9 10 11 12 }
+    //darray[3] = { 13 14 15 16 }
+    //*(*(darray+2)+2) = 11
+    //     daray[2][2] = 11
     printf("---------------------------------------------\n");	
     string_double_array_pointer_array();
+    //"str1:This is a locust tree"
+    //"str2:This is also a locust tree"
+    //strings: Go Pace!
+    //strings[0]: Go Pace! Go Pace!
+    //strings[1]: Beat CUNY! Beat CUNY!
+    //strings[2]: Crash SUNY! Crash SUNY!
+    //strings[3]: Enjoy CS232! Enjoy CS232!
     printf("---------------------------------------------\n");	
     string_equal();
+    //Go Pace!
+
+    //s1: Pace == s2: Pace?
+    //s3: xxxxxxxx == s4: xxxxxxxx? pointer/addr
     printf("---------------------------------------------\n");	
     readonly_vs_stack();
+    //str1: This is a locust tree
+    //str2: this is also a locust tree
 }
 
 // ----------------------------------------------------------------------------
@@ -276,8 +308,8 @@ void trace_structs_pointers()
 
 // ----------------------------------------------------------------------------
 void readonly_vs_stack() {
-  char str1[] = "This is a locust tree"; //str1 is a statically alloc-ed array
-  char * str2 = "This is also a locust tree"; //str2 is a pointer to char
+  char str1[] = "This is a locust tree"; //str1 is a statically alloc-ed array local storage on stack, involves copying char to stack
+  char * str2 = "This is also a locust tree"; //str2 is a pointer to char; pointer of a string hard coded string in memory, nothing copied
 
   str1[0] = 't';
   printf("str1: %s \n",str1);
