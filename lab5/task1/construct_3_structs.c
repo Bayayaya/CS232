@@ -51,9 +51,6 @@ void teardown(node_t* head) {
 		free(trav);
 		trav=next;
 	}
-    //TODO: free all dynamic memory you requested.
-}
-
 //You can ignore the following code for testing
 void dump_all(node_t*);
 int main (int argc, char ** argv) {
