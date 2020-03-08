@@ -72,7 +72,7 @@ void delete_node_at(node_t ** head, int idx) {
 		printf("End of list\n");
 		return;
 		}else{
-	printf("i's position  %d\n", i);		
+	//printf("i's position  %d\n", i);		
 	pre=needfree;
 	needfree=trav;
 	trav=trav->next;
@@ -84,10 +84,38 @@ void delete_node_at(node_t ** head, int idx) {
 	//deletes a node at index idx, which ranges from zero to the length of the list - 1.
 }
 
-void delete_node_key(node_t **head, char * key) {
-             
+int doesmatch(char * key, char * nodestr, int length){
+	int check;
+	for (int i=0; i<length; i++){
 
-       
+	if(key[i]!=nodestr[i]){
+	check = 1;
+	return check;//if string doesn't match, return 1
+	
+		}
+	}	
+	return 0;//if string matchs, return 0
+
+}
+
+void delete_node_key(node_t **head, char * key) {
+	node_t** trav;
+	node_t* needfree;
+	trav=head;
+	int check;
+	while(*trav != NULL){
+		check = doesmatch(key,(*trav)->str,(*trav)->length);
+		if(check == 0){
+			needfree=*trav;
+			*trav = (*trav)->next;
+			free(needfree);
+			//free node_t that is refering to by *trav and move *trav to next
+			//so no need to move trav because *trav already moved
+		} else {
+			trav = &((*trav)->next);//trave move on it key doesn't match str
+		}
+	}
+
 	//TODO: implement delete a node based on key
 	//given a certain key, find and delete. 
 }
@@ -95,21 +123,21 @@ void delete_node_key(node_t **head, char * key) {
 //You can ignore the following code for testing
 void dump_all(node_t*);
 int main (int argc, char ** argv) {
-    node_t * head = setup();
-    add(&head, "hi", 2);
-    delete_node_key(&head, "prof");
-    delete_node_at(&head, 0);
-    dump_all(head);
-    teardown(head);
-    return 0;
+	node_t * head = setup();
+	add(&head, "hi", 2);
+	delete_node_key(&head, "prof");
+	delete_node_at(&head, 0);
+	dump_all(head);
+	teardown(head);
+	return 0;
 }
 
 void dump_all(node_t * head) {
-    printf("head -> ");
-    node_t * cur = head;
-    while(cur != NULL) {
-        printf("%s ", cur->str);
-	cur = cur->next;
-    }
-    printf("\ndone\n ");
+	printf("head -> ");
+	node_t * cur = head;
+	while(cur != NULL) {
+		printf("%s ", cur->str);
+		cur = cur->next;
+	}
+	printf("\ndone\n ");
 }
