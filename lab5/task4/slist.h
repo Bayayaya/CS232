@@ -36,10 +36,7 @@
 #include <stdint.h>
 #include "snode.h"
 
-struct slist {
-  struct snode *front; // front node
-  struct snode *back;  // back node
-};
+struct slist;
 
 /**
  * Allocates new slist dynamically.
@@ -102,7 +99,7 @@ uint32_t slist_length(struct slist *l);
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
  */
-struct snode* slist_delete(struct slist *l, char *str);
+void slist_delete(struct slist *l, char *str);
 
 
 #endif /* _slist_H_ */

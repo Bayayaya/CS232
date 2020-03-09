@@ -26,13 +26,13 @@ int main(void)   {
     slist_traverse(song_list);
 
     node = slist_find(song_list, "Uptown Funk");
-    printf("Search 'Uptown Funk', node address %p\n", node);
+    printf("Search 'Uptown Funk', node address %p\n",(void*) node);
     node = slist_find(song_list, "Earned It");
-    printf("Search 'Earned It', node address %p\n", node);
+    printf("Search 'Earned It', node address %p\n",(void*) node);
     node = slist_find(song_list, "Sugar");
-    printf("Search 'Sugar', node address %p\n", node); 
+    printf("Search 'Sugar', node address %p\n",(void*) node); 
     node = slist_find(song_list, "My Heart Will Go On");
-    printf("Search 'My Heart Will Go On', node address %p\n", node);  // should be NULL
+    printf("Search 'My Heart Will Go On', node address %p\n",(void*) node);  // should be NULL
     
     slist_destroy(song_list);
 
