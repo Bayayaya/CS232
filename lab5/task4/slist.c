@@ -101,19 +101,25 @@ uint32_t slist_length(struct slist *l){
 void slist_delete(struct slist *l, char *str){
 	struct snode** snode_ptrptr;
 	snode_ptrptr = &(l->front);
+	struct snode* prev =NULL;
 	while(*snode_ptrptr != NULL){
 		if(0==strcmp(str,(*snode_ptrptr)->str)){
 			struct snode * to_free;
 			to_free = *snode_ptrptr;
+			if(*snode_ptrptr==(l->back)){
+				l->back = prev;
+			}
 			*snode_ptrptr = ((*snode_ptrptr)->next);
 			snode_destroy(to_free);
 			return;
 			//check snode_ptrptr->str with give str, if match, relink list and free *snode_ptrptr
 		}else{
 			//if doesn't match, move to next snode
+			prev = *snode_ptrptr;
 			snode_ptrptr = &((*snode_ptrptr)->next);//move snode_ptrptr to next snode*
+
 		}
 	}
-	
+
 }
 
