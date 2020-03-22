@@ -78,7 +78,6 @@ void slist_destroy(struct slist *l){
 		snode_destroy(snode_free);
 		snode_free = next;
 	}
-	l->size--;
 	free(l);
 }
 
