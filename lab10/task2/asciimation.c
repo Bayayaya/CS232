@@ -24,7 +24,7 @@ static int get_num_frames(char *path) {
 	int n = 0;
 	while((pdir = readdir(dir))) {
 		if(strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0) {
-		//printf("%s", pdir->d_name);
+		printf("%s", pdir->d_name);
 		//debugging printf, you can use this line to print out ascii file names.
 		n++;
 		}
@@ -40,10 +40,11 @@ asciimation_t * asciimation_new(char * path, int fps){
 		perror("failed allocation\n");
 		return 0;
 	}
+	ascm->frames_per_second = fps;
 	//figure out how many frames are in the dir?
 	int n = get_num_frames(path);
 	//create a list of frames
-	ascm->frames = //TODO: create a new slist;
+	ascm->frames = slist_create();//TODO: create a new slist;
 	// we know the number of frames, we can simply reconstruct the name of each ascii file, and construct a frame obj for 
 	// each ascii file. Must implement frame_new first
 	for(int i=0; i<n; i++) {
@@ -56,6 +57,7 @@ asciimation_t * asciimation_new(char * path, int fps){
 			sprintf(asciipath+len, "%d", i+1);
 		//if your path is ./data/a, and i=0, then asciipath = ./data/a/1, exactly what we want to load
 		struct frame_t * aframe = frame_new(asciipath,i);
+		ascm->frames[i]=aframe;
 		//TODO:add aframe to ascm->frames;
 	}
 	
@@ -68,6 +70,12 @@ void asciimation_delete(asciimation_t * ascm){
 	// 1. free all the frames, must implement frame_delete first.(why?)
 	// 2. free the list
 	// 3. free the ascm itself
+	int n = get_num_frames(path);
+	for(int i = 0; i<n; i++){
+		frame_delete(ascm->frames[i]);
+	}
+	slist_destroy(ascm->frames);
+	free(ascm);
 }
 
 void asciimation_play(asciimation_t * ascm){
@@ -78,10 +86,23 @@ void asciimation_play(asciimation_t * ascm){
 		//sleep for frames_per_second * repetition_counter_of_the_frame
 		//clear the screen
 	//}
+	int n = get_num_frames(path);
+	for(int i=0; i<n; i++){
+		printf("%s\n", ascm->frames[i]->content);
+		sleep(1/ascm->frames_per_second);
+		system("@cls||clear");
+	}
+
 }
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
 	//same logic as above, only difference is loop through the list backward.
+	int n = get_num_frames(path);
+	for(int i=n; i>0; i--){
+		printf("%s\n", ascm->frames[i]->content);
+		sleep(1/ascm->frames_per_second);
+		system("@cls||clear");
+	}
 }
 
 
