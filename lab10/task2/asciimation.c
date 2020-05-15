@@ -56,11 +56,11 @@ asciimation_t * asciimation_new(char * path, int fps){
 		else	
 			sprintf(asciipath+len, "%d", i+1);
 		//if your path is ./data/a, and i=0, then asciipath = ./data/a/1, exactly what we want to load
-		printf("before frame_new\n");
+		//printf("before frame_new\n");
 		struct frame_t * aframe = frame_new(asciipath,i);
-		printf("before slist_add_back\n");
+		//printf("before slist_add_back\n");
 		slist_add_back(ascm->frames,aframe);
-		printf("after slist_add_back\n");
+		//printf("after slist_add_back\n");
 
 		//ascm->frames[i]=aframe;
 		//TODO:add aframe to ascm->frames;
@@ -91,24 +91,27 @@ void asciimation_play(asciimation_t * ascm){
 		//sleep for frames_per_second * repetition_counter_of_the_frame
 		//clear the screen
 	//}
-	uint32_t n = slist_length(ascm->frames); 
-	printf("Nodes number in slist %d\n", n );
+	//uint32_t n = slist_length(ascm->frames); 
+	// printf("Nodes number in slist %d\n", n );
 	//slist_traverse(ascm->frames);
-	//for(int i=0; i<n; i++){
-		frame_t* frame_ptr = ascm->frames->front->data;
-		printf("repcounter is %d\n", frame_ptr->rep_counter);
-		printf("id is %d\n", frame_ptr->id);
+	struct snode* snode_ptr = ascm->frames->front;
+	while(snode_ptr!=NULL){
+		system("clear");
+		frame_t* frame_ptr = snode_ptr->data;
+		// printf("repcounter is %d\n", frame_ptr->rep_counter);
+		// printf("id is %d\n", frame_ptr->id);
 		char* picture = frame_ptr->content;
 		printf("%s\n", picture);
-		//sleep(1/ascm->frames_per_second);
+		usleep(1000.0*1000.0/ascm->frames_per_second*frame_ptr->rep_counter);
 		//system("@cls||clear");
-	//}
+		snode_ptr = snode_ptr->next;
+	}
 
 }
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
 	//same logic as above, only difference is loop through the list backward.
-	uint32_t n = slist_length(ascm->frames); 
+	//uint32_t n = slist_length(ascm->frames); 
 	// for(int i=n; i>0; i--){
 	// 	printf("%s\n", ascm->frames->front->data->content);
 	// 	sleep(1/ascm->frames_per_second);

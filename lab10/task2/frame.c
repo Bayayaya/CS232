@@ -68,9 +68,9 @@ static void load_frame(frame_t *f, char *path) {
 	}
 	free(line);
 	f->content = file_bytes;
-	printf("after while loop print all %s\n",f->content);
+	// printf("after while loop print all %s\n",f->content);
 
-	printf("end of load_frame %d\n",f->rep_counter );
+	// printf("end of load_frame %d\n",f->rep_counter );
 
 	fclose(fptr);
 
