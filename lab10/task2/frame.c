@@ -14,6 +14,7 @@
 #include "frame.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 static void load_frame(frame_t *f, char *path) {
 	// TODO:your code here
 	// path is the pathname to an ascii file, we have to open the ascii file, and read the content
@@ -43,20 +44,29 @@ static void load_frame(frame_t *f, char *path) {
 		exit(EXIT_FAILURE);
 	}
 	size_t len;
-	getline(&f->rep_counter,&len,fptr);
-	while ((ssize_t read = getline(&line, &len, fptr)) != -1) { //getline return a ssize_t = signed size_t
+	ssize_t read;
+	while ((read = getline(&line, &len, fptr)) != -1) { //getline return a ssize_t = signed size_t
 		printf("Retrieved line of length %zu:\n", read);
-		size_t old_len = strlen(f->content);
-		char* newline = realloc(f->content, (old_len+strlen(line)+1));//could repalce strlen(line)+1 by len?
-		strcpy = (newline+old_len,line);
-		f->content = newline;
-		printf("%s", line); //this line is NOT your code
-		free(line);
-		line=NULL;
+		// size_t old_len = (size_t)strlen(f->content);
+		// char* newline = realloc(f->content, (old_len+strlen(line)+1));//could repalce strlen(line)+1 by len?
+		// strcpy(newline+old_len,line);
+		// f->content = newline;
+		 printf("%s", line); //this line is NOT your code
+		// //free(line);
+		// line=NULL;
+		f->content = line;
+		printf("in while loop print f->content %s\n",f->content );
 		//your task is not to print the line, instead, you need to save the line to
 		//frame->content
 	}
-	fclose(fp);
+	printf("after while loop print all %s\n",f->content );
+	char* counter=NULL;
+	size_t len2;
+	getline(&counter, &len2, fptr);
+	f->rep_counter = atoi(counter);
+	printf("end of load_frame %d\n",f->rep_counter );
+
+	fclose(fptr);
 
 
 	return;

@@ -16,6 +16,7 @@
 #include "asciimation.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 void get_valid_option(int *n) {
 	int r = scanf("%d", n);
 	while (r!=1 || *n<1 || *n>3) {

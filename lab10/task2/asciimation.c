@@ -56,8 +56,13 @@ asciimation_t * asciimation_new(char * path, int fps){
 		else	
 			sprintf(asciipath+len, "%d", i+1);
 		//if your path is ./data/a, and i=0, then asciipath = ./data/a/1, exactly what we want to load
+		printf("before frame_new\n");
 		struct frame_t * aframe = frame_new(asciipath,i);
-		ascm->frames[i]=aframe;
+		printf("before slist_add_back\n");
+		slist_add_back(ascm->frames,aframe);
+		printf("after slist_add_back\n");
+
+		//ascm->frames[i]=aframe;
 		//TODO:add aframe to ascm->frames;
 	}
 	
@@ -70,10 +75,10 @@ void asciimation_delete(asciimation_t * ascm){
 	// 1. free all the frames, must implement frame_delete first.(why?)
 	// 2. free the list
 	// 3. free the ascm itself
-	int n = get_num_frames(path);
-	for(int i = 0; i<n; i++){
-		frame_delete(ascm->frames[i]);
-	}
+	//uint32_t n = slist_length(ascm->frames); 
+	//for(int i = 0; i<n; i++){
+	//	frame_delete(ascm->frames[i]->data);
+	//}
 	slist_destroy(ascm->frames);
 	free(ascm);
 }
@@ -86,23 +91,25 @@ void asciimation_play(asciimation_t * ascm){
 		//sleep for frames_per_second * repetition_counter_of_the_frame
 		//clear the screen
 	//}
-	int n = get_num_frames(path);
-	for(int i=0; i<n; i++){
-		printf("%s\n", ascm->frames[i]->content);
-		sleep(1/ascm->frames_per_second);
-		system("@cls||clear");
-	}
+	uint32_t n = slist_length(ascm->frames); 
+	printf("Nodes number in slist %d\n", n );
+	slist_traverse(ascm->frames);
+	// for(int i=0; i<n; i++){
+	// 	printf("%s\n", ascm->frames->front->data->content);
+	// 	sleep(1/ascm->frames_per_second);
+	// 	system("@cls||clear");
+	// }
 
 }
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
 	//same logic as above, only difference is loop through the list backward.
-	int n = get_num_frames(path);
-	for(int i=n; i>0; i--){
-		printf("%s\n", ascm->frames[i]->content);
-		sleep(1/ascm->frames_per_second);
-		system("@cls||clear");
-	}
+	uint32_t n = slist_length(ascm->frames); 
+	// for(int i=n; i>0; i--){
+	// 	printf("%s\n", ascm->frames->front->data->content);
+	// 	sleep(1/ascm->frames_per_second);
+	// 	system("@cls||clear");
+	// }
 }
 
 
