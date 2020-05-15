@@ -43,27 +43,32 @@ static void load_frame(frame_t *f, char *path) {
 	if (fptr == NULL) {
 		exit(EXIT_FAILURE);
 	}
-	size_t len;
-	ssize_t read;
-	while ((read = getline(&line, &len, fptr)) != -1) { //getline return a ssize_t = signed size_t
-		printf("Retrieved line of length %zu:\n", read);
-		// size_t old_len = (size_t)strlen(f->content);
-		// char* newline = realloc(f->content, (old_len+strlen(line)+1));//could repalce strlen(line)+1 by len?
-		// strcpy(newline+old_len,line);
-		// f->content = newline;
-		 printf("%s", line); //this line is NOT your code
-		// //free(line);
-		// line=NULL;
-		f->content = line;
-		printf("in while loop print f->content %s\n",f->content );
+	size_t line_cap;
+	ssize_t line_len;
+
+
+	getline(&line, &line_cap, fptr);
+	f->rep_counter = atoi(line);
+
+
+	char* file_bytes=malloc(sizeof(char));
+	file_bytes[0] = '\0';
+	size_t file_len = 0;
+	while ((line_len = getline(&line, &line_cap, fptr)) != -1) { //getline return a ssize_t = signed size_t
+		//printf("Retrieved line of length %zu:\n", line_len);
+		file_bytes = realloc(file_bytes, (file_len+line_len+1));//could repalce strlen(line)+1 by len?
+		strcpy(file_bytes+file_len,line);
+		file_len += line_len;
+		//printf("this is line: %s", line); //this line is NOT your code
+		//f->content = line;
+		//printf("in while loop print f->content %s\n",f->content );
 		//your task is not to print the line, instead, you need to save the line to
 		//frame->content
 	}
-	printf("after while loop print all %s\n",f->content );
-	char* counter=NULL;
-	size_t len2;
-	getline(&counter, &len2, fptr);
-	f->rep_counter = atoi(counter);
+	free(line);
+	f->content = file_bytes;
+	printf("after while loop print all %s\n",f->content);
+
 	printf("end of load_frame %d\n",f->rep_counter );
 
 	fclose(fptr);
