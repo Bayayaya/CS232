@@ -2,12 +2,7 @@
 #include "snode.h"
 #include <string.h>
 #include <stdlib.h>
-struct snode {
-  //TODO: change str to dynamic allcoation
-  void* data;
-  //int length;
-  struct snode *next;
-};
+
 
 struct snode *snode_create(void *s) {
         struct snode * snode_ptr;

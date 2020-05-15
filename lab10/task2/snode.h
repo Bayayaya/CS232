@@ -4,7 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct snode;
+struct snode {
+  //TODO: change str to dynamic allcoation
+  void* data;
+  //int length;
+  struct snode *next;
+};
   //TODO: change str to dynamic allcoation
   //int length;
 

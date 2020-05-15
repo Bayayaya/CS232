@@ -4,18 +4,6 @@
 #include <stdlib.h>
 #include "slist.h"
 
-struct snode {
-  //TODO: change str to dynamic allcoation
-  void* data;
-  //int length;
-  struct snode *next;
-};
-
-
-struct slist {
-  struct snode *front; // front node
-  struct snode *back;  // back node
-};
 
 struct slist * slist_create(){
 	struct slist * slist_ptr;
