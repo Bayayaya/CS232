@@ -20,7 +20,7 @@ struct snode *snode_create(void *s) {
  }
  
 void snode_destroy(struct snode * s) {
-	free(s->data);
+	//free(s->data);
         free(s);
 
  //TODO: implement snode_destroy

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 static int get_num_frames(char *path) {
 	DIR * dir;
 	struct dirent * pdir;
@@ -24,14 +25,28 @@ static int get_num_frames(char *path) {
 	int n = 0;
 	while((pdir = readdir(dir))) {
 		if(strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0) {
-		printf("%s", pdir->d_name);
+			//printf("%s", pdir->d_name);
 		//debugging printf, you can use this line to print out ascii file names.
-		n++;
+			n++;
 		}
 
 	}
+	closedir(dir);
 	return n;
 
+}
+
+void sleep_helper(int fps, int rep_counter){
+
+	float time = 1.0/fps*rep_counter;
+
+	struct timespec timesp;
+	
+	int t = time;
+	timesp.tv_sec = t;
+	timesp.tv_nsec = (time - t) * 1000*1000*1000;
+
+	nanosleep(&timesp,NULL);
 }
 
 asciimation_t * asciimation_new(char * path, int fps){
@@ -75,10 +90,14 @@ void asciimation_delete(asciimation_t * ascm){
 	// 1. free all the frames, must implement frame_delete first.(why?)
 	// 2. free the list
 	// 3. free the ascm itself
-	//uint32_t n = slist_length(ascm->frames); 
-	//for(int i = 0; i<n; i++){
-	//	frame_delete(ascm->frames[i]->data);
-	//}
+
+	struct snode* snode_ptr = ascm->frames->front;
+	while(snode_ptr!=NULL){
+		//system("clear");
+		frame_t* frame_ptr = snode_ptr->data;
+		frame_delete(frame_ptr);
+		snode_ptr = snode_ptr->next;
+	}
 	slist_destroy(ascm->frames);
 	free(ascm);
 }
@@ -98,11 +117,12 @@ void asciimation_play(asciimation_t * ascm){
 	while(snode_ptr!=NULL){
 		system("clear");
 		frame_t* frame_ptr = snode_ptr->data;
-		// printf("repcounter is %d\n", frame_ptr->rep_counter);
-		// printf("id is %d\n", frame_ptr->id);
+		//printf("repcounter is %d\n", frame_ptr->rep_counter);
+		//printf("Print frame and id is %d\n", frame_ptr->id);
 		char* picture = frame_ptr->content;
 		printf("%s\n", picture);
-		usleep(1000.0*1000.0/ascm->frames_per_second*frame_ptr->rep_counter);
+		//usleep(1000.0*1000.0/ascm->frames_per_second*frame_ptr->rep_counter);
+		sleep_helper(ascm->frames_per_second,frame_ptr->rep_counter);
 		//system("@cls||clear");
 		snode_ptr = snode_ptr->next;
 	}
@@ -111,12 +131,20 @@ void asciimation_play(asciimation_t * ascm){
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
 	//same logic as above, only difference is loop through the list backward.
-	//uint32_t n = slist_length(ascm->frames); 
-	// for(int i=n; i>0; i--){
-	// 	printf("%s\n", ascm->frames->front->data->content);
-	// 	sleep(1/ascm->frames_per_second);
-	// 	system("@cls||clear");
-	// }
+	uint32_t n = slist_length(ascm->frames); 
+	struct snode* snode_ptr = ascm->frames->front;
+	struct snode* snode_arr[n];
+	for(int i=0; i<n; i++){
+		snode_arr[i] = snode_ptr;
+		snode_ptr = snode_ptr->next;
+	}
+	for(int j=n-1; j>=0; j--){
+		system("clear");
+		frame_t* frame_ptr = snode_arr[j]->data;
+		printf("%s\n", frame_ptr->content);
+		//usleep(1000.0*1000.0/ascm->frames_per_second*frame_ptr->rep_counter);
+		sleep_helper(ascm->frames_per_second,frame_ptr->rep_counter);
+	}
 }
 
 
