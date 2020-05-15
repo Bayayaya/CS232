@@ -7,9 +7,9 @@
 struct snode *snode_create(void *s) {
         struct snode * snode_ptr;
 	snode_ptr = (struct snode*)malloc(sizeof(struct snode));
-	void* create_s=(void*)malloc((strlen(s)+1)*sizeof(*s));
-        strcpy(create_s,s);
-	snode_ptr->data = create_s;
+	// void* create_s=(void*)malloc((strlen(s)+1)*sizeof(*s));
+ //        strcpy(create_s,s);
+	snode_ptr->data = s;
 	snode_ptr->next=NULL;
         return snode_ptr;
 

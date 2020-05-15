@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 static void load_frame(frame_t *f, char *path) {
 	// TODO:your code here
 	// path is the pathname to an ascii file, we have to open the ascii file, and read the content

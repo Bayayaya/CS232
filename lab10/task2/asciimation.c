@@ -94,12 +94,15 @@ void asciimation_play(asciimation_t * ascm){
 	uint32_t n = slist_length(ascm->frames); 
 	printf("Nodes number in slist %d\n", n );
 	//slist_traverse(ascm->frames);
-	for(int i=0; i<n; i++){
+	//for(int i=0; i<n; i++){
 		frame_t* frame_ptr = ascm->frames->front->data;
-		printf("%s\n", frame_ptr->content);
-		sleep(1/ascm->frames_per_second);
-		system("@cls||clear");
-	}
+		printf("repcounter is %d\n", frame_ptr->rep_counter);
+		printf("id is %d\n", frame_ptr->id);
+		char* picture = frame_ptr->content;
+		printf("%s\n", picture);
+		//sleep(1/ascm->frames_per_second);
+		//system("@cls||clear");
+	//}
 
 }
 void asciimation_reverse(asciimation_t * ascm){
