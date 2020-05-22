@@ -11,11 +11,13 @@
 * 04/16/2019, By Jun Yuan-Murray, modified for CS232, Pace University, NY
 * 04/29/2020, By Jun Yuan-Murray, modified for CS232, Pace University, NY
 ******************************************************/
+#define _GNU_SOURCE
 #include "frame.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <assert.h>
 static void load_frame(frame_t *f, char *path) {
 	// TODO:your code here
 	// path is the pathname to an ascii file, we have to open the ascii file, and read the content
@@ -48,7 +50,8 @@ static void load_frame(frame_t *f, char *path) {
 	ssize_t line_len;
 
 
-	getline(&line, &line_cap, fptr);
+	int a = getline(&line, &line_cap, fptr);
+	assert(a!=-1);
 	f->rep_counter = atoi(line);
 
 

@@ -11,6 +11,10 @@
 * 04/16/2019, By Jun Yuan-Murray, modified for CS232, Pace University, NY
 * 04/29/2020, By Jun Yuan-Murray, modified for CS232, Pace University, NY
 ******************************************************/
+#define _POSIX_C_SOURCE 199309L
+//#define _GNU_SOURCE
+
+
 #include "asciimation.h"
 #include <dirent.h>
 #include <unistd.h>
@@ -18,6 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
+
+
 static int get_num_frames(char *path) {
 	DIR * dir;
 	struct dirent * pdir;
@@ -25,7 +32,7 @@ static int get_num_frames(char *path) {
 	int n = 0;
 	while((pdir = readdir(dir))) {
 		if(strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0) {
-			//printf("%s", pdir->d_name);
+			printf("%s", pdir->d_name);
 		//debugging printf, you can use this line to print out ascii file names.
 			n++;
 		}
@@ -93,7 +100,6 @@ void asciimation_delete(asciimation_t * ascm){
 
 	struct snode* snode_ptr = ascm->frames->front;
 	while(snode_ptr!=NULL){
-		//system("clear");
 		frame_t* frame_ptr = snode_ptr->data;
 		frame_delete(frame_ptr);
 		snode_ptr = snode_ptr->next;
@@ -115,7 +121,8 @@ void asciimation_play(asciimation_t * ascm){
 	//slist_traverse(ascm->frames);
 	struct snode* snode_ptr = ascm->frames->front;
 	while(snode_ptr!=NULL){
-		system("clear");
+		int a = system("clear");
+		assert (a!=0 || a!= -1 || a !=127);
 		frame_t* frame_ptr = snode_ptr->data;
 		//printf("repcounter is %d\n", frame_ptr->rep_counter);
 		//printf("Print frame and id is %d\n", frame_ptr->id);
@@ -139,7 +146,8 @@ void asciimation_reverse(asciimation_t * ascm){
 		snode_ptr = snode_ptr->next;
 	}
 	for(int j=n-1; j>=0; j--){
-		system("clear");
+		int a = system("clear");
+		assert (a!=0 || a!= -1 || a !=127);
 		frame_t* frame_ptr = snode_arr[j]->data;
 		printf("%s\n", frame_ptr->content);
 		//usleep(1000.0*1000.0/ascm->frames_per_second*frame_ptr->rep_counter);
